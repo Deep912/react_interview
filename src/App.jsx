@@ -1,15 +1,15 @@
 import { Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar"; // ✅ Navbar always visible
 import Home from "./pages/Home";
 import ProductDetail from "./pages/ProductDetail";
 import CartPage from "./pages/CartPage";
 import Orders from "./pages/Orders";
 import Login from "./pages/Login";
-import Navbar from "./components/Navbar"; // Import Navbar
 
 function App() {
   return (
     <>
-      <Navbar /> {/* ✅ Always visible */}
+      <Navbar /> {/* ✅ Navbar stays on all pages */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<ProductDetail />} />

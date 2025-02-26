@@ -2,35 +2,59 @@ import { useCart } from "../context/CartContext";
 import { Link } from "react-router-dom";
 
 const CartPage = () => {
-  const { cart, removeFromCart } = useCart();
+  const { cart, removeFromCart, updateQuantity } = useCart();
 
   return (
-    <div className="p-4">
-      <h2 className="text-2xl">Shopping Cart</h2>
+    <div className="max-w-7xl mx-auto p-6">
+      <h2 className="text-3xl font-bold text-center mb-4">Your Cart</h2>
+
       {cart.length === 0 ? (
-        <p>Your cart is empty.</p>
+        <p className="text-center text-gray-600">
+          Cart is empty.{" "}
+          <Link to="/" className="text-indigo-600">
+            Shop Now
+          </Link>
+        </p>
       ) : (
-        cart.map((item) => (
-          <div key={item.id} className="flex justify-between border p-2 my-2">
-            <p>
-              {item.title} - ${item.price} x {item.quantity}
-            </p>
-            <button
-              onClick={() => removeFromCart(item.id)}
-              className="bg-red-500 px-2 text-white"
+        <div className="grid gap-4">
+          {cart.map((item) => (
+            <div
+              key={item.id}
+              className="flex justify-between items-center p-4 bg-white shadow rounded"
             >
-              Remove
-            </button>
-          </div>
-        ))
-      )}
-      {cart.length > 0 && (
-        <Link
-          to="/checkout"
-          className="block bg-green-500 text-white p-2 text-center mt-4"
-        >
-          Checkout
-        </Link>
+              <img
+                src={item.thumbnail}
+                alt={item.title}
+                className="w-16 h-16 rounded"
+              />
+              <div className="flex-1 ml-4">
+                <h3 className="text-lg font-semibold">{item.title}</h3>
+                <p className="text-gray-600">${item.price}</p>
+              </div>
+              <div className="flex items-center">
+                <button
+                  onClick={() => updateQuantity(item.id, -1)}
+                  className="px-2 py-1 bg-gray-300"
+                >
+                  -
+                </button>
+                <span className="mx-2">{item.quantity}</span>
+                <button
+                  onClick={() => updateQuantity(item.id, 1)}
+                  className="px-2 py-1 bg-gray-300"
+                >
+                  +
+                </button>
+              </div>
+              <button
+                onClick={() => removeFromCart(item.id)}
+                className="bg-red-500 text-white px-3 py-1 rounded"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );
